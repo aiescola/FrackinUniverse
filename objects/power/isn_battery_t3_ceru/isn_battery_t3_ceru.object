@@ -4,7 +4,7 @@
 	"colonyTags" : [ "science" ],
 	"category" : "wire",
 	"price" : 600,
-	"description" : "A much improved battery perfect for basic industrial use.^truncate; ^red;Scan for Info^reset;\nStorage Capacity: ^green;4000^reset;J",
+	"description" : "A much improved battery perfect for basic industrial use.^truncate; ^red;Scan for Info^reset;\nStorage Capacity: ^green;6000^reset;J",
 	"shortdescription" : "^green;Industrial^reset; Battery",
 	"race" : "generic",
 	"printable" : false,
@@ -37,6 +37,6 @@
 	"outputNodes" : [ [0, 0], [1, 0] ],
 	"inputNodes" : [ [0, 1], [2, 4] ],
 
-	"isn_batteryCapacity" : 4000,
+	"isn_batteryCapacity" : 6000,
 	"powertype" : "battery"
 }

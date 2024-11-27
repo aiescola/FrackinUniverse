@@ -3,7 +3,7 @@
   "colonyTags" : [ "science", "machines" ],
   "printable" : false,
   "rarity" : "common",
-  "description" : "This advanced Sifter efficiently extracts materials from loose or powdery materials. ^cyan;Requires ^orange;40W ^cyan;power.^reset;",
+  "description" : "This advanced Sifter efficiently extracts materials from loose or powdery materials. ^cyan;Requires ^orange;30W ^cyan;power.^reset;",
   "shortdescription" : "^cyan;Powder Sifter^reset;",
   "race" : "generic",
   "category" : "^orange;Extraction Device^reset;",
@@ -44,11 +44,11 @@
 
   "craftDelay": 0.116666667,
   "itemChances": {
-    "rarest": 0.008,
-    "rare": 0.03,
-    "uncommon": 0.07,
-    "normal": 0.15,
-    "common": 0.25
+    "rarest": 0.01,
+    "rare": 0.035,
+    "uncommon": 0.08,
+    "normal": 0.16,
+    "common": 0.22
   },
 
   "inputSlot": 2,
@@ -58,5 +58,5 @@
 
   "centrifugeType" : "powder",
   "powertype" : "input",
-  "isn_requiredPower" : 40
+  "isn_requiredPower" : 30
 }

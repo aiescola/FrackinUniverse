@@ -5,7 +5,7 @@
   "category" : "wire",
   "objectType" : "container",
   "price" : 200,
-  "description" : "A wood, coal or energiwood burning power source. Generates up to ^orange;4W^reset; power, fuel type determines consumption rate. ^blue;Left Input^reset;: On/Off Switch",
+  "description" : "A wood, coal or energiwood burning power source. Generates up to ^orange;6W^reset; power, fuel type determines consumption rate. ^blue;Left Input^reset;: On/Off Switch",
   "shortdescription" : "^cyan;Alternator Generator^reset;",
   "race" : "generic",
   "printable" : false,
@@ -44,22 +44,22 @@
 
   "powertype" : "output",
   "acceptablefuel" : {
-	  "coalore" : 16,
-	  "logblock" : 10,
-	  "energywood" : 50,
-	  "goldenwood" : 20,
+	  "coalore" : 30,
+	  "logblock" : 15,
+	  "energywood" : 100,
+	  "goldenwood" : 50,
 	  "schrodingerscat" : 120000,
-    "alienweirdwood" : 40,
-    "astralwood" : 60,
-    "redwoodbark" : 20,
-    "penumbralbark" : 30
+    "alienweirdwood" : 100,
+    "astralwood" : 150,
+    "redwoodbark" : 30,
+    "penumbralbark" : 40
   },
   "heat" : [
-    {"minheat" : 90,"animator" : {"screen" : "on","fans" : "on"},"sound" : true,"power" : 4,"light" : [166,166,166]},
-    {"minheat" : 70,"animator" : {"screen" : "on","fans" : "on"},"sound" : true,"power" : 3,"light" : [100,100,100]},
-    {"minheat" : 50,"animator" : {"screen" : "on","fans" : "on"},"sound" : true,"power" : 2,"light" : [100,100,100]},
-    {"minheat" : 30,"animator" : {"screen" : "on","fans" : "on"},"sound" : false,"power" : 1,"light" : [50,50,50]},
-    {"minheat" : 10,"animator" : {"screen" : "on","fans" : "on"},"sound" : false,"power" : 0,"light" : [50,50,50]},
+    {"minheat" : 80,"animator" : {"screen" : "on","fans" : "on"},"sound" : true,"power" : 6,"light" : [166,166,166]},
+    {"minheat" : 66,"animator" : {"screen" : "on","fans" : "on"},"sound" : true,"power" : 5,"light" : [100,100,100]},
+    {"minheat" : 50,"animator" : {"screen" : "on","fans" : "on"},"sound" : true,"power" : 4,"light" : [100,100,100]},
+    {"minheat" : 25,"animator" : {"screen" : "on","fans" : "on"},"sound" : false,"power" : 3,"light" : [50,50,50]},
+    {"minheat" : 10,"animator" : {"screen" : "on","fans" : "on"},"sound" : false,"power" : 1,"light" : [50,50,50]},
     {"minheat" : 0,"animator" : {"screen" : "off","fans" : "off"},"sound" : false,"power" : 0,"light" : [0,0,0]}
   ]
 }

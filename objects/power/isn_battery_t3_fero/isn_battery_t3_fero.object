@@ -4,7 +4,7 @@
 	"colonyTags" : [ "science" ],
 	"category" : "wire",
 	"price" : 800,
-	"description" : "A fantastic battery with exceptional storage and voltage.^truncate; ^red;Scan for Info^reset;\nStorage Capacity: ^green;8000^reset;J",
+	"description" : "A fantastic battery with exceptional storage and voltage.^truncate; ^red;Scan for Info^reset;\nStorage Capacity: ^green;12000^reset;J",
 	"shortdescription" : "^cyan;Advanced^reset; Battery",
 	"race" : "generic",
 	"printable" : false,
@@ -36,6 +36,6 @@
 	"outputNodes" : [ [0, 0], [1, 0] ],
 	"inputNodes" : [ [0, 1], [2, 4] ],
 
-	"isn_batteryCapacity" : 8000,
+	"isn_batteryCapacity" : 12000,
 	"powertype" : "battery"
 }

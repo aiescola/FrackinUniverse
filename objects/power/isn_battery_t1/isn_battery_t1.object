@@ -4,7 +4,7 @@
 	"colonyTags" : [ "science" ],
 	"category" : "wire",
 	"price" : 200,
-	"description" : "A basic power storage unit.^truncate; ^red;Scan for Info^reset;\nStorage Capacity: ^green;1000^reset;J",
+	"description" : "A basic power storage unit.^truncate; ^red;Scan for Info^reset;\nStorage Capacity: ^green;1500^reset;J",
 	"shortdescription" : "^orange;Basic^reset; Battery",
 	"race" : "generic",
 	"printable" : false,
@@ -37,6 +37,6 @@
 	"outputNodes" : [ [0, 0], [1, 0] ],
 	"inputNodes" : [ [0, 1], [2, 3] ],
 
-	"isn_batteryCapacity" : 1000,
+	"isn_batteryCapacity" : 1200,
 	"powertype" : "battery"
 }

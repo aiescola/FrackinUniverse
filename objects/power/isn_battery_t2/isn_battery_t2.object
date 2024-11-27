@@ -4,7 +4,7 @@
 	"colonyTags" : [ "science" ],
 	"category" : "wire",
 	"price" : 450,
-	"description" : "A slightly upgraded form of battery.^truncate; ^red;Scan for Info^reset;\nStorage Capacity: ^green;2500^reset;J",
+	"description" : "A slightly upgraded form of battery.^truncate; ^red;Scan for Info^reset;\nStorage Capacity: ^green;3000^reset;J",
 	"shortdescription" : "^orange;Improved^reset; Battery",
 	"race" : "generic",
 	"printable" : false,
@@ -37,6 +37,6 @@
 	"outputNodes" : [ [0, 0], [1, 0] ],
 	"inputNodes" : [ [0, 1], [2, 3] ],
 
-	"isn_batteryCapacity" : 2500,
+	"isn_batteryCapacity" : 3000,
 	"powertype" : "battery"
 }

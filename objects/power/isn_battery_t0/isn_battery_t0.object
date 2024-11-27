@@ -4,7 +4,7 @@
 	"colonyTags" : [ "science" ],
 	"category" : "wire",
 	"price" : 100,
-	"description" : "A very primitive battery.^truncate; ^red;Scan for Info^reset;\nStorage Capacity: ^green;350^reset;J",
+	"description" : "A very primitive battery.^truncate; ^red;Scan for Info^reset;\nStorage Capacity: ^green;500^reset;J",
 	"shortdescription" : "^orange;Simple^reset; Battery",
 	"race" : "generic",
 	"printable" : false,
@@ -36,7 +36,7 @@
 	"outputNodes" : [ [0, 0], [1, 0] ],
 	"inputNodes" : [ [0, 1], [2, 2] ],
 
-	"isn_batteryCapacity" : 350,
+	"isn_batteryCapacity" : 500,
 	"isn_batteryVoltage" : 2,
 	"powertype" : "battery"
 }

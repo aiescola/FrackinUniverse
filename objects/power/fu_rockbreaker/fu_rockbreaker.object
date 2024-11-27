@@ -3,7 +3,7 @@
   "colonyTags" : [ "science", "machines" ],
   "printable" : false,
   "rarity" : "common",
-  "description" : "Slowly breaks up rocky materials into useful items. ^cyan;Requires ^orange;6W ^cyan;power.^reset;",
+  "description" : "Slowly breaks up rocky materials into useful items. ^cyan;Requires ^orange;4W ^cyan;power.^reset;",
   "shortdescription" : "^cyan;Rock Breaker^reset;",
   "race" : "generic",
   "category" : "^orange;Extraction Device^reset;",
@@ -57,5 +57,5 @@
 
   "centrifugeType" : "rocks",
   "powertype" : "input",
-  "isn_requiredPower" : 6
+  "isn_requiredPower" : 4
 }

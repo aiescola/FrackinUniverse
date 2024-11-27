@@ -3,7 +3,7 @@
   "colonyTags" : [ "science", "machines" ],
   "printable" : false,
   "rarity" : "common",
-  "description" : "A device for pulverizing rocky material into useful items. ^cyan;Requires ^orange;30W ^cyan;power.^reset;",
+  "description" : "A device for pulverizing rocky material into useful items. ^cyan;Requires ^orange;20W ^cyan;power.^reset;",
   "shortdescription" : "^cyan;Rock Crusher^reset;",
   "race" : "generic",
   "category" : "^orange;Extraction Device^reset;",
@@ -43,11 +43,11 @@
 
   "craftDelay": 0.25,
   "itemChances": {
-    "rarest": 0.006,
-    "rare": 0.025,
-    "uncommon": 0.055,
-    "normal": 0.12,
-    "common": 0.20
+    "rarest": 0.007,
+    "rare": 0.028,
+    "uncommon": 0.06,
+    "normal": 0.14,
+    "common": 0.18
   },
 
   "inputSlot": 1,
@@ -57,5 +57,5 @@
 
   "centrifugeType" : "rocks",
   "powertype" : "input",
-  "isn_requiredPower" : 30
+  "isn_requiredPower" : 25
 }

@@ -5,7 +5,7 @@
   "category" : "wire",
   "objectType" : "container",
   "price" : 3500,
-  "description" : "A versatile fuel-burning generator. Generates up to ^orange;12W^reset;, fuel type determines consumption rate. ^orange;Heats up, heat determines output.^reset; ^blue;Left Input^reset;: On/Off Switch",
+  "description" : "A versatile fuel-burning generator. Generates up to ^orange;15W^reset;, fuel type determines consumption rate. ^orange;Heats up, heat determines output.^reset; ^blue;Left Input^reset;: On/Off Switch",
   "shortdescription" : "^cyan;Combustion Generator^reset;",
   "race" : "generic",
   "printable" : false,
@@ -80,10 +80,10 @@
   },
 
   "heat" : [
-    {"minheat" : 90,"animator" : {"screen" : "fast"},"sound" : true,"power" : 12,"light" : [166,166,166]},
-    {"minheat" : 70,"animator" : {"screen" : "med","fans" : "fast"},"sound" : true,"power" : 9,"light" : [100,100,100]},
-    {"minheat" : 50,"animator" : {"screen" : "med","fans" : "fast"},"sound" : true,"power" : 7,"light" : [100,100,100]},
-    {"minheat" : 30,"animator" : {"screen" : "slow","fans" : "slow"},"sound" : false,"power" : 5,"light" : [50,50,50]},
+    {"minheat" : 80,"animator" : {"screen" : "fast"},"sound" : true,"power" : 15,"light" : [166,166,166]},
+    {"minheat" : 66,"animator" : {"screen" : "med","fans" : "fast"},"sound" : true,"power" : 12,"light" : [100,100,100]},
+    {"minheat" : 50,"animator" : {"screen" : "med","fans" : "fast"},"sound" : true,"power" : 9,"light" : [100,100,100]},
+    {"minheat" : 25,"animator" : {"screen" : "slow","fans" : "slow"},"sound" : false,"power" : 6,"light" : [50,50,50]},
     {"minheat" : 10,"animator" : {"screen" : "slow","fans" : "slow"},"sound" : false,"power" : 3,"light" : [50,50,50]},
     {"minheat" : 0,"animator" : {"screen" : "off","fans" : "off"},"sound" : false,"power" : 0,"light" : [0,0,0]}
   ]
