@@ -1,3 +1,5 @@
+require "/stats/effects/fu_statusUtil.lua"
+
 function init()
 	script.setUpdateDelta(5)
 	if not world.entitySpecies(entity.id()) then return end
@@ -14,7 +16,7 @@ function init()
 
 	self.healthRegen = config.getParameter("healthRegen",0)
 	self.frEnabled=status.statusProperty("fr_enabled")
-	self.species = status.statusProperty("fr_race") or world.entitySpecies(entity.id())
+	-- self.species = status.statusProperty("fr_race") or world.entitySpecies(entity.id())
 	if not self.frEnabled or ((status.stat("isHerbivore")==1 or status.stat("isRobot")==1 or status.stat("isOmnivore")==1 or status.stat("isSugar")==1) and (not(status.stat("isRadien")==1))) then
 		world.sendEntityMessage(entity.id(), "queueRadioMessage", "foodtyperad")
 	end
@@ -25,19 +27,20 @@ end
 function update(dt)
 	if not self.didInit then init() end
 	if not self.didInit then return end
-	if self.frEnabled and (self.species == "radien" or self.species == "novakid" or self.species == "thelusian") then
+	if status.statPositive("fuRadiationHeal") then
 		applyEffects()
 		animator.setParticleEmitterOffsetRegion("healing", mcontroller.boundBox())
 		animator.setParticleEmitterActive("healing", true)
 	else
 		effect.setStatModifierGroup(self.statHandler,{})
-		if (self.frEnabled or (not (self.species == "radien"))) and ((self.tickTimer or 0) <= 0) then
+		if (self.frEnabled --[[or (not (self.species == "radien"))]]) and ((self.tickTimer or 0) <= 0) then
 			applyPenalty()
 			animator.setParticleEmitterOffsetRegion("drips", mcontroller.boundBox())
 			animator.setParticleEmitterActive("drips", true)
 		else
 			self.tickTimer = (self.tickTimer or 0) - dt
 		end
+		applyFilteredModifiers({ airJumpModifier = 1.0, speedModifier = 1.0 })
 	end
 end
 
@@ -50,7 +53,7 @@ function applyPenalty()
 		sourceEntityId = entity.id()
 	})
 	effect.setParentDirectives("fade=806e4f="..self.tickTimer * 0.25)
-	mcontroller.controlModifiers({ airJumpModifier = 0.08, speedModifier = 0.08 })
+	applyFilteredModifiers({ airJumpModifier = 0.08, speedModifier = 0.08 })
 end
 
 function applyEffects()
@@ -66,4 +69,5 @@ function uninit()
 	if not self.didInit then return end
 	effect.removeStatModifierGroup(self.statHandler)
 	animator.setParticleEmitterActive("drips", false)
+	filterModifiers({},true)
 end

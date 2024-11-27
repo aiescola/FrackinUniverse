@@ -9,11 +9,11 @@ function init()
 
 	self.healingRate = 1.0 / config.getParameter("healTime", 60)
 	bonusHandler=bonusHandler or effect.addStatModifierGroup({})
-	if self.eType=="player" or self.eType=="npc" then
-		self.frEnabled=status.statusProperty("fr_enabled")
-		self.species = status.statusProperty("fr_race") or world.entitySpecies(entity.id())
-	end
-	if self.frEnabled and (self.species == "fragmentedruin") then
+	-- if self.eType=="player" or self.eType=="npc" then
+		-- self.frEnabled=status.statusProperty("fr_enabled")
+		-- self.species = status.statusProperty("fr_race") or world.entitySpecies(entity.id())
+	-- end
+	if status.statPositive("fuHealingWaterPoisons") then
 		animator.setParticleEmitterOffsetRegion("drips", mcontroller.boundBox())
 		animator.setParticleEmitterActive("drips", true)
 	else
@@ -26,8 +26,7 @@ end
 
 function update(dt)
 	if (not self.didInit) or (not self.healingRate) then init() end
-	--sb.logInfo("regenhealingwater")
-	if self.frEnabled and (self.species == "fragmentedruin") then
+	if status.statPositive("fuHealingWaterPoisons") then
 		self.tickTimer = self.tickTimer - dt
 		if self.tickTimer <= 0 then
 			self.tickTimer = self.tickTime
@@ -41,8 +40,6 @@ function update(dt)
 		effect.setParentDirectives(string.format("fade=00AA00=%.1f", self.tickTimer * 0.4))
 	else
 		effect.setStatModifierGroup(bonusHandler,{{stat="healthRegen",amount=status.resourceMax("health")*self.healingRate*math.max(0,1+status.stat("healingBonus"))}})
-
-		--status.modifyResourcePercentage("health", self.healingRate * dt)
 	end
 
 end

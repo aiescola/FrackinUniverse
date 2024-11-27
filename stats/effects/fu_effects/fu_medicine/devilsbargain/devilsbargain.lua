@@ -1,3 +1,5 @@
+require "/stats/effects/fu_statusUtil.lua"
+
 function init()
 	effect.addStatModifierGroup({
 		{stat = "powerMultiplier", amount = 0.2},
@@ -7,15 +9,19 @@ function init()
 		{stat = "poisonResistance", amount = 0.2},
 		{stat = "electricResistance", amount = 0.2},
 		{stat = "radioactiveResistance", amount = 0.2},
-		{stat = "shadowMultiplier", amount = 0.2},
-		{stat = "cosmicMultiplier", amount = 0.2},
+		{stat = "shadowResistance", amount = 0.2},
+		{stat = "cosmicResistance", amount = 0.2},
 		{stat = "maxHealth", baseMultiplier = 0.75},
 		{stat = "maxEnergy", baseMultiplier = 0.75}
 	})
 end
 
 function update(dt)
-	mcontroller.controlModifiers({
-		speedModifier = (status.statPositive("spikeSphereActive") and 1.0) or 1.55
+	applyFilteredModifiers({
+		speedModifier = 1.55
 	})
+end
+
+function uninit()
+	filterModifiers({},true)
 end

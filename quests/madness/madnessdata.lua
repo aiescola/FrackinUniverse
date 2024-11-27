@@ -22,7 +22,6 @@ function init()
 	self.timerCounter = 0
 	self.timerCounterGenes = 0 --xi specific
 	self.environmentTimer = 0
-
 	self.timer = 10.0 -- was zero, instant event on plopping in. giving players a short grace period. some of us teleport around a LOT.
 	for _,effect in ipairs(status.activeUniqueStatusEffectSummary()) do
 		if effect[1]=="mad" then
@@ -39,7 +38,6 @@ function init()
 	self.bonusTimer = 1
 
     storage.crazycarrycooldown=math.max(storage.crazycarrycooldown or 0,10.0)
-
 
 	--make sure the annoying sounds dont flood
 	status.removeEphemeralEffect("partytime5madness")
@@ -62,7 +60,6 @@ function init()
 
 	local elementalTypes=root.assetJson("/damage/elementaltypes.config")
 	local buffer={}
-
 
 	--storage.armorSetData=storage.armorSetData or {}--moved into a separate setup
 	fuPersistentEffectRecorder.init()
@@ -487,7 +484,7 @@ function update(dt)
 		end
 		-- how crazy are we?
 		if player.currency("fumadnessresource") then
-			self.madnessResearchBonus = player.currency("fumadnessresource") / 4777 --3.14
+			self.madnessResearchBonus = player.currency("fumadnessresource") / 3500 --3.14 (4777) was the old value. We now have altered this to improve it slightly.
 			if self.madnessResearchBonus < 1 then
 				self.madnessResearchBonus = 0
 			end
@@ -497,7 +494,7 @@ function update(dt)
 		if self.timerCounterGenes >= (1+afkLvl) then
 			if afkLvl <= 3 then
 				self.rewardedGenes = status.stat("isXi")
-				if status.stat("isXi") then
+				if self.rewardedGenes>0 then
 					if self.timerCounterGenes >= (25 - self.rewardedGenes) then
 						if player.currency("fugeneticmaterial") <= 99 then  -- dont generate more unless below 100 genes to prevent abusing for profit
 							player.addCurrency("fugeneticmaterial", self.rewardedGenes)
@@ -550,11 +547,11 @@ function update(dt)
 		checkMadnessArt()
 	end
 
-	-- Core Adjustment Function
+	-- Core Madness Adjustment Function
 	self.timer = math.max(self.timer - dt,0.0)
 	if self.timer <= 0.0 then
 		if self.madnessCount > 50 then
-			self.degradeTotal = self.madnessCount / 300 + (self.protheonCount)
+			self.degradeTotal = self.madnessCount / 300 + (self.protheonCount) + status.stat("freudBonus")
 			self.timerDegradePenalty = math.max(0.0,self.madnessCount / 500)
 			self.timer = math.max(math.max(10,300.0 - (self.madnessCount/100)) + (status.stat("mentalProtection") * 100),10) --implementing a hard floor on how low the timer can go.
 			randomEvent() --apply random effect
@@ -564,26 +561,25 @@ function update(dt)
 		end
 	end
 	self.timerDegrade = math.max(self.timerDegrade - dt,0.0) - (self.protheonCount * 4)
-	self.freudBonus = math.max(status.stat("freudBonus"),-0.8) -- divide by zero is bad. as this approaches -1, the timer approaches infinity. -0.5 turns the timer into 80s instead of 40s. cappin it at -0.8, which is 400s or 10x
-	--gradually reduce Madness over time
-	if (self.timerDegrade <= 0) then --no more limit to when it can degrade
-		self.timerDegradePenalty = self.timerDegradePenalty or 0.0
+	if (status.stat("freudBonus") > 0 ) then  -- player is inside an Instafreud or has consumed an item that temporarily acts like one
+		self.degradeTotal = self.madnessCount / 300 + (self.protheonCount) + status.stat("freudBonus") + (status.stat("mentalProtection")/20)
+		displayBar()
+		--sb.logInfo("Instafreud is active. Reducing madness.")
+		player.radioMessage("fu_useFreud")
 		player.consumeCurrency("fumadnessresource", self.degradeTotal)
-		self.timerDegrade= (60.0 - self.timerDegradePenalty) / (1.0+self.freudBonus) - (self.protheonCount)
-		--displayBar()
+	else
+		disableBar()
 	end
-	-- apply bonus loss from anti-madness effects even if not above X madness
+	-- apply bonus loss from anti-madness effects even if not above X madness. This always applies, as a benefit of the Mental Protection stat.
 	self.bonusTimer = math.max(self.bonusTimer - dt,0)
 	if self.bonusTimer <= 0.0 then
-		self.protectionBonus = status.stat("mentalProtection")* 20 + math.random(1,12)
+		self.protectionBonus = (status.stat("mentalProtection") * 20) + 1
 		if (status.statPositive("mentalProtection")) then
 			player.consumeCurrency("fumadnessresource", self.protectionBonus)
 		end
-		self.bonusTimer = 40.0 / (1.0 + self.freudBonus)
-		--displayBar()
+		self.bonusTimer = 30.0
 	end
 end
-
 ----------------------------------------------------------------------------------
 -- passive research gain based on Play Time
 function checkPassiveTimerBonus()
@@ -635,6 +631,10 @@ function displayBar()
 	else
 		world.sendEntityMessage(self.playerId,"removeBar","madnessBar")
 	end
+end
+
+function disableBar()
+	world.sendEntityMessage(self.playerId,"removeBar","madnessBar")
 end
 
 function checkMadnessArt()

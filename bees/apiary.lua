@@ -92,7 +92,7 @@ specialFrameFunctions = {
 		end
 	end,
 	copperFrame = function(data)
-	        self.randAmount = math.random(1,2)
+		self.randAmount = math.random(1,2)
 		if isHiveQueenActive(true) and areDronesActive() then
 			if not ironFrameTimer then
 				ironFrameTimer = data[1]
@@ -105,7 +105,7 @@ specialFrameFunctions = {
 		end
 	end,
 	ironFrame = function(data)
-	        self.randAmount = math.random(1,2)
+		self.randAmount = math.random(1,2)
 		if isHiveQueenActive(true) and areDronesActive() then
 			if not ironFrameTimer then
 				ironFrameTimer = data[1]
@@ -118,7 +118,7 @@ specialFrameFunctions = {
 		end
 	end,
 	tungstenFrame = function(data)
-	        self.randAmount = math.random(1,2)
+		self.randAmount = math.random(1,2)
 		if isHiveQueenActive(true) and areDronesActive() then
 			if not ironFrameTimer then
 				ironFrameTimer = data[1]
@@ -131,7 +131,7 @@ specialFrameFunctions = {
 		end
 	end,
 	titaniumFrame = function(data)
-	        self.randAmount = math.random(1,2)
+		self.randAmount = math.random(1,2)
 		if isHiveQueenActive(true) and areDronesActive() then
 			if not ironFrameTimer then
 				ironFrameTimer = data[1]
@@ -144,7 +144,7 @@ specialFrameFunctions = {
 		end
 	end,
 	durasteelFrame = function(data)
-	        self.randAmount = math.random(1,2)
+		self.randAmount = math.random(1,2)
 		if isHiveQueenActive(true) and areDronesActive() then
 			if not ironFrameTimer then
 				ironFrameTimer = data[1]
@@ -172,7 +172,7 @@ function init()
 	biome = world.type()
 
 	-- Disabled on ship and player space stations
-	if biome == "unknown" then   --or biome == "playerstation" then
+	if biome == "unknown" then --or biome == "playerstation" then
 		script.setUpdateDelta(-1)
 		return
 	end
@@ -527,7 +527,7 @@ function getFrames(dt)
 						frameBonuses[stat] = true
 					end
 				elseif cfg.config[stat] then
-				        -- the total frame count influences the overall stats. Take the current frame bonus and add the amount in the stack to the provided bonus
+					-- the total frame count influences the overall stats. Take the current frame bonus and add the amount in the stack to the provided bonus
 					frameBonuses[stat] = (frameBonuses[stat] + cfg.config[stat]) * (1 + ((contents[frameSlot].count/100) * 0.5 )) --add total frames to total
 				end
 			end
@@ -655,7 +655,7 @@ function queenProduction()
 	--youngQueenProgress = youngQueenProgress + productionQueen * (math.random(beeData.productionRandomModifierRange[1],beeData.productionRandomModifierRange[2]) * 0.01) * 0.25
 	youngQueenProgress = youngQueenProgress + productionQueen * (math.random(beeData.productionRandomModifierRange[1],beeData.productionRandomModifierRange[2]) * 0.01) * 0.5
 	--sb.logInfo(youngQueenProgress)
-	droneProgress = droneProgress + productionDrone * (math.random(beeData.productionRandomModifierRange[1],beeData.productionRandomModifierRange[2]) * 0.01)  * 0.25
+	droneProgress = droneProgress + productionDrone * (math.random(beeData.productionRandomModifierRange[1],beeData.productionRandomModifierRange[2]) * 0.01) * 0.25
 
 	if youngQueenProgress >= beeData.youngQueenProductionRequirement then
 		local produced = math.floor(youngQueenProgress / beeData.youngQueenProductionRequirement)
@@ -736,11 +736,11 @@ end
 -- Can be called from other places (Like the frame scripts)
 function ageQueen(amount)
 	--if changing this, make sure it matches in beeBuilder.lua
-    local fullLifespan = genelib.statFromGenomeToValue(queen.parameters.genome, "queenLifespan") * ((frameBonuses.queenLifespan or 0 / 8) + 1)
-    --sb.logInfo(fullLifespan)
+	local fullLifespan = genelib.statFromGenomeToValue(queen.parameters.genome, "queenLifespan") * ((frameBonuses.queenLifespan or 0 / 8) + 1)
+	--sb.logInfo(fullLifespan)
 
 	if not queen.parameters.lifespan or queen.parameters.lifespan < 0 then
-	  queen.parameters.lifespan = fullLifespan
+		queen.parameters.lifespan = fullLifespan
 	end
 
 
@@ -924,42 +924,38 @@ end
 
 -- Roll for mite infestation, or increment mite count if there's an infestation
 function miteGrowth()
+	-- local fartstick=math.random()
+	-- sb.logInfo("mite Roll: %s, vs: %s",fartstick,beeData.mites.infestationChance)
 	if storage.mites > 0 then
-
-		--display an infested hive image over the normal hive appearance if its infested enough
-		if storage.mites > 20 then  --if mites pass 20, display a really rotten looking apiary
-		  animator.setAnimationState("base", "infested2", true)
-		  animator.setAnimationState("warning", "on", true)
-		elseif storage.mites > 6 then  --if mites pass 6, display a rotten looking apiary
-		  animator.setAnimationState("base", "infested", true)
-		  animator.setAnimationState("warning", "on", true)
-		elseif storage.mites > 0.98 then
-		  animator.setAnimationState("warning", "on", true) --show symbol for mite infestation, but dont change apiary look
-		else
-		  animator.setAnimationState("base", "default", true)
-		  animator.setAnimationState("warning", "off", true)
-		end
 
 		-- The growth multiplier. responsible for increasing mites by [current amount of mites] * this value
 		local mult = beeData.mites.growthPercentile
-
 		-- Get the hives total mite resistance (all drone resistances / number of drones occupying drone slots)
 		local hiveMiteResistance = 0
 		local droneCount = 0
+		-- local hiveMiteResistanceB = 0
+		-- local droneCountB = 0
+		-- local multB = mult
+		-- local sDBG=""..entity.id()..":: storage.mites: "..storage.mites.."::"
 
 		for _, slot in ipairs(droneSlots) do
 			local item = contents[slot]
 			if item and root.itemHasTag(item.name, "bee") and root.itemHasTag(item.name, "drone") then
 				hiveMiteResistance = hiveMiteResistance + genelib.statFromGenomeToValue(item.parameters.genome, "miteResistance") + frameBonuses.miteResistance
 				droneCount = droneCount + contents[slot].count --loops through drone slots and adds them together
+				-- droneCountB = 1000*droneCount/(1000+droneCount)
 			end
 		end
+
+		-- hiveMiteResistanceB = hiveMiteResistance
+		-- sDBG=sDBG.."mitegrowth(): mult first: ".mult.", droneCount first: "..droneCount..", droneCountB: "..droneCountB.."::"
 
 		-- miteResistance stat range at the time of writing this: -6.475 to 6.475
 		-- If the value is positive, the hive is resistant to mites, and the multiplier is reduced to [mult]/([stat]*100), can't be lower than 0.0001
 		-- If the value is negative, the hive is weaker to mites, and the multiplier is multiplied by the stat (a non-negative version of it that is)
 		if droneCount > 0 then
 			hiveMiteResistance = hiveMiteResistance / droneCount
+
 			-- we create a little function that improves as resistance does
 			if hiveMiteResistance > 0 then
 				mult = math.max(mult / (hiveMiteResistance*3125), beeData.mites.growthPercentileMinimum)
@@ -967,17 +963,51 @@ function miteGrowth()
 			elseif hiveMiteResistance < 0 then
 				mult = mult + mult * math.abs(hiveMiteResistance)
 			end
+			-- sDBG=sDBG.."mitegrowth():mult second: "..mult..", hiveMiteResistance: "..hiveMiteResistance..", droneCount: "..droneCount.."::"
 		end
+
+		-- if droneCountB > 0 then
+			-- hiveMiteResistanceB = hiveMiteResistanceB / droneCountB
+			-- if hiveMiteResistanceB > 0 then
+				-- multB = math.max(multB / (hiveMiteResistanceB*3125), beeData.mites.growthPercentileMinimum)
+			-- elseif hiveMiteResistanceB < 0 then
+				-- multB = multB + multB * math.abs(hiveMiteResistanceB)
+			-- end
+			-- sDBG=sDBG.."mitegrowth():multB second: "..multB..", hiveMiteResistanceB: "..hiveMiteResistanceB..", droneCountB: "..droneCountB.."::"
+		-- end
 
 		-- remove the hive resistance from the mite total if over a certain threshold, otherwise increment them
 		if hiveMiteResistance > 0 then
-		  storage.mites = storage.mites + (storage.mites * mult) - (hiveMiteResistance) -- added storage.mites*mult to balance mite growth against hive resistance
+			storage.mites = storage.mites + (storage.mites * mult) - (hiveMiteResistance) -- added storage.mites*mult to balance mite growth against hive resistance
+			-- sDBG=sDBG.."mites aU: "..(storage.mites + (storage.mites * mult) - (hiveMiteResistance))
 		else
-	          storage.mites = storage.mites + (storage.mites * mult) + beeData.mites.growthStatic
+			storage.mites = storage.mites + (storage.mites * mult) + beeData.mites.growthStatic
+			-- sDBG=sDBG.."mites aD: "..(storage.mites + (storage.mites * mult) + beeData.mites.growthStatic)
 		end
 
+		-- if hiveMiteResistanceB > 0 then
+			-- sDBG=sDBG.."fake mites bU: "..(storage.mites + (storage.mites * multB) - (hiveMiteResistanceB))
+		-- else
+			-- sDBG=sDBG.."fake mites bD: "..(storage.mites + (storage.mites * mult) + beeData.mites.growthStatic)
+		-- end
+		--sb.logInfo("%s",sDBG)
+
+		--display an infested hive image over the normal hive appearance if its infested enough
+		if storage.mites > 20 then --if mites pass 20, display a really rotten looking apiary
+			animator.setAnimationState("base", "infested2", true)
+			animator.setAnimationState("warning", "on", true)
+		elseif storage.mites > 6 then --if mites pass 6, display a rotten looking apiary
+			animator.setAnimationState("base", "infested", true)
+			animator.setAnimationState("warning", "on", true)
+		elseif storage.mites > 0.98 then
+			animator.setAnimationState("warning", "on", true) --show symbol for mite infestation, but dont change apiary look
+		else
+			animator.setAnimationState("base", "default", true)
+			animator.setAnimationState("warning", "off", true)
+		end
+	-- elseif fartstick <= beeData.mites.infestationChance then
 	elseif math.random() <= beeData.mites.infestationChance then
-	    storage.mites = beeData.mites.growthStatic --storage.mites = storage.mites + (storage.mites*mult) - (hiveMiteResistance)
+		storage.mites = beeData.mites.growthStatic --storage.mites = storage.mites + (storage.mites*mult) - (hiveMiteResistance)
 	end
 end
 
@@ -1090,27 +1120,27 @@ function getBiomeFavor(name)
 	--frame immunity to biomes
 	if frameBonuses.radResistance then
 		if (biome == "alien") or (biome == "jungle") or (biome == "barren") or (biome == "barren2") or (biome == "barren3") or (biome == "chromatic") or (biome == "irradiated") or (biome == "metallicmoon") then
-		  if (favor < 2) then
-		    favor = 2
-		  end
+			if (favor < 2) then
+				favor = 2
+			end
 		end
 	elseif frameBonuses.coldResistance then
 		if (biome == "snow") or (biome == "arctic") or (biome == "snowdark") or (biome == "arcticdark") or (biome == "tundra") or (biome == "tundradark") or (biome == "crystalmoon") or (biome == "frozenvolcanic") or (biome == "icemoon") or (biome == "icewaste") or (biome == "icewastedark") or (biome == "nitrogensea") then
-		  if (favor < 2) then
-		    favor = 2
-		  end
+			if (favor < 2) then
+				favor = 2
+			end
 		end
 	elseif frameBonuses.heatResistance then
 		if (biome == "desert") or (biome == "volcanic") or (biome == "volcanicdark") or (biome == "magma") or (biome == "magmadark") or (biome == "desertwastes") or (biome == "desertwastesdark") or (biome == "infernus") or (biome == "infernusdark") or (biome == "frozenvolcanic") then
-		  if (favor < 2) then
-		    favor = 2
-		  end
+			if (favor < 2) then
+				favor = 2
+			end
 		end
 	elseif frameBonuses.physicalResistance then
-		if (biome == "toxic") or (biome == "moon") or (biome == "scorched") or (biome == "scorchedcity") or (biome == "volcanic") or (biome == "volcanicdark") or (biome == "savannah")  or (biome == "jungle") or (biome == "thickjungle") or (biome == "sulphuric") or (biome == "sulphuricdark") or (biome == "tidewater") then
-		  if (favor < 2) then
-		    favor = 2
-		  end
+		if (biome == "toxic") or (biome == "moon") or (biome == "scorched") or (biome == "scorchedcity") or (biome == "volcanic") or (biome == "volcanicdark") or (biome == "savannah")	or (biome == "jungle") or (biome == "thickjungle") or (biome == "sulphuric") or (biome == "sulphuricdark") or (biome == "tidewater") then
+			if (favor < 2) then
+				favor = 2
+			end
 		end
 	end
 

@@ -32,6 +32,10 @@ function excavatorCommon.init()
 		sb.logInfo("excavatorCommon disabled on non-objects (current is \"%s\") for safety reasons.",entityType.entityType())
 		return
 	end
+	if (config.getParameter("kheAA_limitToShip")==true) and not (type(world.getProperty("ship.level"))=="number") then
+		storage.state="disabled"
+		return
+	end
 	excavatorCommon.vars={}
 	excavatorCommon.vars.direction=util.clamp(object.direction(),0,1)
 	excavatorCommon.vars.facing=object.direction()
@@ -67,6 +71,7 @@ function excavatorCommon.init()
 
 	if excavatorCommon.vars.isVacuum then
 		excavatorCommon.vars.vacuumRange=config.getParameter("kheAA_vacuumRange",4)
+		excavatorCommon.vars.vacuumMinRange=config.getParameter("kheAA_vacuumMinRange")
 		excavatorCommon.vars.vacuumDelay=config.getParameter("kheAA_vacuumDelay",0)--in seconds
 	end
 
@@ -245,6 +250,17 @@ function excavatorCommon.grab(grabPos)
 		return
 	end
 	local drops = world.itemDropQuery(grabPos,excavatorCommon.vars.vacuumRange)
+	if excavatorCommon.vars.vacuumMinRange then
+		drops = util.filter(drops,
+			function(entityId)
+				if world.magnitude(grabPos, world.entityPosition(entityId)) < excavatorCommon.vars.vacuumMinRange then
+					--sb.logInfo("eid %s too close",entityId)
+					return false
+				end
+				return true
+			end
+		)
+	end
 	--local size=world.containerItemsCanFit(transferUtil.vars.containerId,drops[i])
 	for _,id in pairs(drops) do
 		--if entity.entityInSight(drops[i])
@@ -410,22 +426,22 @@ function states.pump(dt)
 	end
 
 	if not transferUtil.powerLevel(excavatorCommon.vars.pumpHPNode,true) then
-		for k,v in pairs(storage.liquids) do
-			if v >= 1 then
-				local level=10^math.floor(math.log(v,10))
-				local itemD=liquidLib.liquidToItem(k,level)
+		for liq,qty in pairs(storage.liquids) do
+			if qty >= 1 then
+				local level=10^math.floor(math.log(qty,10))
+				local itemD=liquidLib.liquidToItem(liq,level)
 				if itemD then
 					local try,count=transferUtil.throwItemsAt(transferUtil.vars.containerId,transferUtil.vars.inContainers[transferUtil.vars.containerId],itemD)
 					if try then
-						storage.liquids[k] = storage.liquids[k] - count
+						storage.liquids[liq] = storage.liquids[liq] - count
 						break
 					end
 				else
 					if util.tableSize(excavatorCommon.vars.liquidOuts or {})>0 then
 						local outputPipe=transferUtil.findNearest(entity.id(),entity.position(),excavatorCommon.vars.liquidOuts)
 						if world.entityExists(outputPipe) then
-							world.callScriptedEntity(outputPipe,"liquidLib.receiveLiquid",{k,1})
-							storage.liquids[k]=v-1
+							world.callScriptedEntity(outputPipe,"liquidLib.receiveLiquid",{liq,1})
+							storage.liquids[liq]=qty-1
 							break
 						end
 					end
@@ -435,12 +451,13 @@ function states.pump(dt)
 	else
 		for _,item in pairs(world.containerItems(entity.id())) do
 			if item.count >= 1 then
-				item.count=10^math.floor(math.log(item.count,10))
 				local id=liquidLib.itemToLiquidId(item)
 				if id then
+					local count=10^math.floor(math.log(item.count,10))
+					item.count=count
 					if world.containerConsume(entity.id(),item) then
 						if not storage.liquids[id] then storage.liquids[id] = 0 end
-						storage.liquids[id]=storage.liquids[id]+item.count
+						storage.liquids[id]=storage.liquids[id]+count
 						break
 					end
 				end

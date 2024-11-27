@@ -31,7 +31,7 @@ function init()
 		if diff>0 then
 			diff=math.floor(math.min(diff,maxOfflineSeconds)/rentTime)
 			offlineTicks=math.max(-1, diff - 1)
-            rentTimer=rentTime+1
+            rentTimer=rentTime-10
 		end
 	end
 end
@@ -47,9 +47,14 @@ function update(dt)
 	end
 	rentTimer = rentTimer + dt
 	if (rentTimer > rentTime) then
-		world.containerPutItemsAt(entity.id(),{name=wellSlots[1].name,count=(10 * (wellsDrawing) * (bonusHappiness/10))*(1+offlineTicks)},0)
-		offlineTicks=0
+		local happy=math.max(0,bonusHappiness)
 		rentTimer = 0
+		if happy>0 then
+			world.containerPutItemsAt(entity.id(),{name=wellSlots[1].name,count=(10 * (wellsDrawing) * (happy/10))*(1+offlineTicks)},0)
+		elseif bonusHappiness<0 then
+			rentTimer=rentTimer-happy
+		end
+		offlineTicks=0
 		object.setConfigParameter("leftTime", os.time() )
 	end
 end
@@ -87,23 +92,23 @@ function fu_isWell() return false end
 function getTenantsNum() return wellsDrawing end
 
 function setDesc()
-	local tooltipString="^white;Range:^gray; "..wellRange.."\n^white;Tenants: ^"
+	local tooltipString="^white;Range:^gray; "..wellRange.."\n^white;Tenants: "
 
 	--colony stuff calc
 	if wellsDrawing>0 then
-		tooltipString=tooltipString.."green"
+		tooltipString=tooltipString.."^green;"
 	else
-		tooltipString=tooltipString.."red"
+		tooltipString=tooltipString.."^red;"
 	end
 
-	tooltipString=tooltipString.."; "..wellsDrawing.."\n^white;Total Happiness:^"
+	tooltipString=tooltipString..wellsDrawing.."\n^white;Total Happiness: "
 
 	if bonusHappiness>0 then
-		tooltipString=tooltipString.."green"
+		tooltipString=tooltipString.."^green;"
 	else
-		tooltipString=tooltipString.."white"
+		tooltipString=tooltipString.."^red;"
 	end
-	tooltipString=tooltipString.."; "..bonusHappiness.."^reset;"
+	tooltipString=tooltipString..bonusHappiness.."^reset;"
 
 	object.setConfigParameter('description',tooltipString)
 end
